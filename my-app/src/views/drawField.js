@@ -1,28 +1,44 @@
-import { useState } from "react";
-import { Draw } from "../components/drawing/draw";
-import { getCordinates } from "../components/drawing/getCordinates";
-import "../styles/drawField.css"
+import { useEffect, useState, useRef } from "react";
+import { Rubber } from "../components/drawing/rubber";
 export function DrawField() {
-const [drawActive, setDrawActive]=useState(false)
-const [cordinatesXY, setCordinateXY]=useState()
-
-function drawIsActive(event){
-    let cordinatesXY=getCordinates(event)
-    setCordinateXY(cordinatesXY)
-    console.log(cordinatesXY)
-
-    setDrawActive(true)
-}
+  const canvasRef = useRef(null);
+  const contextRef= useRef(null)
+  const [isDrawing,setIsDrawing] = useState(false)
+  useEffect(()=>{
+    const canvas = canvasRef.current;
+    canvas.width=window.innerWidth*2
+    canvas.height=window.innerHeight*2;
+    canvas.style.width = `${window.innerWidth}px`
+    canvas.style.height = `${window.innerHeight}px`
+    const context = canvas.getContext("2d")
+    context.scale(2,2)
+    context.lineCap="round"
+    context.strokeStyle="black"
+    context.lineWidth = 5
+    contextRef.current= context
+  },[])
+  const startDrawing = ({nativeEvent})=>{
+    const {offsetX,offSetY}=nativeEvent
+    contextRef.current.beginPath()
+    contextRef.current.moveTo(offsetX,offSetY)
+    setIsDrawing(true)
+  }
+  const finishDrawing= ()=>{
+    contextRef.current.closePath()
+    setIsDrawing(false)
+  }
+  const draw = ({nativeEvent})=>{
+    if(!isDrawing){
+      return
+    }
+    const {offsetX,offsetY}=nativeEvent
+    contextRef.current.lineTo(offsetX,offsetY)
+    contextRef.current.stroke()
+  }
   return (
     <>
-        <section className="drawContainer">
-            
-            <button onClick={drawIsActive} className="drawField">
-                {/* <Draw drawActive={drawActive} cordinatesXY={cordinatesXY}/> */}
-            </button>
-
-        </section>
-        
+      <canvas ref={canvasRef} onMouseDown={startDrawing} onMouseUp={finishDrawing} onMouseMove={draw}></canvas>
+    <Rubber context={contextRef}/>
     </>
   );
 }

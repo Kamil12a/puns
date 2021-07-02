@@ -1,10 +1,8 @@
 import "../../styles/draw.css"
-import { getCordinates } from "./getCordinates";
-import { useEffect,useState } from "react";
-export function Draw({drawActive,cordX,cordY}) {
+export function Draw({drawActive,cordinatesXY}) {
   return (
     <>
-        {drawActive&&( <div style={{position:"absolute",top:cordY,left:cordX}}className="point"></div>
+        {drawActive&&( <div style={{position:"absolute",top:cordinatesXY[1],left:cordinatesXY[0]}}className="point"></div>
 )}
   
     </>

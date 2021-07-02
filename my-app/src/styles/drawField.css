@@ -1,0 +1,18 @@
+body{
+    box-sizing: border-box;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.drawContainer{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+.drawField{
+    height: 80%;
+    width: 80%;
+}

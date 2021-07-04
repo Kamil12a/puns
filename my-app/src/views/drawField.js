@@ -4,14 +4,15 @@ import { drawing } from "../components/drawing/draw";
 import { finishDrawing } from "../components/drawing/finishDraw";
 import "../styles/drawField.css";
 import { ToolBar } from "../components/ToolBar";
+import {rubbering} from "../components/drawing/rubbering"
 export function DrawField() {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [rubberStatus,setRubberStatus]=useState(false)
+  const [rubberStatus, setRubberStatus] = useState(false);
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth ;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const context = canvas.getContext("2d");
     context.scale(1, 1);
@@ -25,7 +26,13 @@ export function DrawField() {
     startDrawing(event, contextRef, setIsDrawing, isDrawing);
   };
   const draw = (event) => {
-    drawing(event, contextRef, isDrawing);
+    if(!rubberStatus){
+      drawing(event, contextRef, isDrawing);
+    }
+    else{
+      rubbering(event, contextRef,rubberStatus)
+    }
+
   };
   const finishDraw = (event) => {
     finishDrawing(event, contextRef, setIsDrawing);
@@ -41,7 +48,12 @@ export function DrawField() {
           onMouseUp={finishDraw}
           onMouseMove={draw}
         ></canvas>
-        <ToolBar  contextRef={contextRef} setIsDrawing={setIsDrawing} setRubberStatus={setRubberStatus}/>
+        <ToolBar
+          contextRef={contextRef}
+          setIsDrawing={setIsDrawing}
+          setRubberStatus={setRubberStatus}
+          rubberStatus={rubberStatus}
+        />
       </section>
     </>
   );

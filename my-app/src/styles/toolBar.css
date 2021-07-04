@@ -1,0 +1,10 @@
+
+.toolBar{
+    display: flex;
+    margin-left: 20px;
+    margin-top: 10px;
+    gap: 10px;
+    position: absolute;
+    top:0;
+    left:0
+}

@@ -1,44 +1,48 @@
 import { useEffect, useState, useRef } from "react";
-import { Rubber } from "../components/drawing/rubber";
+import { startDrawing } from "../components/drawing/startDrawing";
+import { drawing } from "../components/drawing/draw";
+import { finishDrawing } from "../components/drawing/finishDraw";
+import "../styles/drawField.css";
+import { ToolBar } from "../components/ToolBar";
 export function DrawField() {
   const canvasRef = useRef(null);
-  const contextRef= useRef(null)
-  const [isDrawing,setIsDrawing] = useState(false)
-  useEffect(()=>{
+  const contextRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [rubberStatus,setRubberStatus]=useState(false)
+  useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width=window.innerWidth*2
-    canvas.height=window.innerHeight*2;
-    canvas.style.width = `${window.innerWidth}px`
-    canvas.style.height = `${window.innerHeight}px`
-    const context = canvas.getContext("2d")
-    context.scale(2,2)
-    context.lineCap="round"
-    context.strokeStyle="black"
-    context.lineWidth = 5
-    contextRef.current= context
-  },[])
-  const startDrawing = ({nativeEvent})=>{
-    const {offsetX,offSetY}=nativeEvent
-    contextRef.current.beginPath()
-    contextRef.current.moveTo(offsetX,offSetY)
-    setIsDrawing(true)
-  }
-  const finishDrawing= ()=>{
-    contextRef.current.closePath()
-    setIsDrawing(false)
-  }
-  const draw = ({nativeEvent})=>{
-    if(!isDrawing){
-      return
-    }
-    const {offsetX,offsetY}=nativeEvent
-    contextRef.current.lineTo(offsetX,offsetY)
-    contextRef.current.stroke()
-  }
+    canvas.width = window.innerWidth ;
+    canvas.height = window.innerHeight;
+    const context = canvas.getContext("2d");
+    context.scale(1, 1);
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 3;
+    contextRef.current = context;
+  }, []);
+
+  const startDraw = (event) => {
+    startDrawing(event, contextRef, setIsDrawing, isDrawing);
+  };
+  const draw = (event) => {
+    drawing(event, contextRef, isDrawing);
+  };
+  const finishDraw = (event) => {
+    finishDrawing(event, contextRef, setIsDrawing);
+  };
+
   return (
     <>
-      <canvas ref={canvasRef} onMouseDown={startDrawing} onMouseUp={finishDrawing} onMouseMove={draw}></canvas>
-    <Rubber context={contextRef}/>
+      <section className="drawContainer">
+        <canvas
+          className="drawField"
+          ref={canvasRef}
+          onMouseDown={startDraw}
+          onMouseUp={finishDraw}
+          onMouseMove={draw}
+        ></canvas>
+        <ToolBar  contextRef={contextRef} setIsDrawing={setIsDrawing} setRubberStatus={setRubberStatus}/>
+      </section>
     </>
   );
 }

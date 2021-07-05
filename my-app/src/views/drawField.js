@@ -6,12 +6,14 @@ import "../styles/drawField.css";
 import { ToolBar } from "../components/views/ToolBar";
 import {rubbering} from "../components/drawing/rubbering"
 import { Chat } from "../components/views/chat";
+import fire from "../fire";
 export function DrawField() {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rubberStatus, setRubberStatus] = useState(false);
   useEffect(() => {
+    console.log(fire)
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;

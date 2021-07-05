@@ -15,6 +15,10 @@
     align-items: center;
     gap: 5px;
     height: 40px;
-    position: relative;
-    top: 370px;
+    position: absolute;
+    bottom: 20px;
+}
+.textMessage{
+    max-height: 400px;
+    overflow: auto;
 }

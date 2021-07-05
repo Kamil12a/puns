@@ -27,6 +27,9 @@ export function ToolBar({
 
     setIsDrawing(false);
   };
+  const clear = ()=>{
+    contextRef.current.clearRect(0, 0, window.innerWidth,window.innerHeight)
+  }
 
   return (
     <>
@@ -38,6 +41,12 @@ export function ToolBar({
           variant="primary"
         >
           Rubber
+        </Button> <Button
+          onClick={clear}
+          onMouseMove={finishDrawing}
+          variant="secondary"
+        >
+          Clear
         </Button>
         <Form.Control
           onMouseMove={finishDrawing}
@@ -49,6 +58,7 @@ export function ToolBar({
           <option value="green">Green</option>
           <option value="blue">Blue</option>
         </Form.Control>
+       
       </section>
     </>
   );

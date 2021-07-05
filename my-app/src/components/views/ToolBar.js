@@ -1,7 +1,8 @@
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRef } from "react";
-import "../styles/toolBar.css";
+import "../../styles/toolBar.css";
+
 export function ToolBar({
   contextRef,
   setIsDrawing,
@@ -16,12 +17,11 @@ export function ToolBar({
   const finishDrawing = () => {
     setIsDrawing(false);
   };
-  const activeRubber = () => {
-    if(rubberStatus){
-        rubberRef.current.innerText = "Rubber";
-    }
-    else{
-        rubberRef.current.innerText = "Pen"
+  const activeRubber = (event) => {
+    if (rubberStatus) {
+      rubberRef.current.innerText = "Rubber";
+    } else {
+      rubberRef.current.innerText = "Pen";
     }
     rubberStatus ? setRubberStatus(false) : setRubberStatus(true);
 

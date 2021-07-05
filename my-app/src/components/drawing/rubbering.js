@@ -1,9 +1,10 @@
-export function rubbering(event, context, rubberStatus) {
-
-   
+export function rubbering(event, context, isDrawing) {
+    if(!isDrawing){
+      return
+    }
     const x = event.nativeEvent.clientX;
     const y = event.nativeEvent.clientY;
-    // context.current.lineTo(x, y);
-    // context.current.stroke();
+    context.current.clearRect(x-15, y-15, 30, 30)
+  
   }
   

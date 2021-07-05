@@ -4,39 +4,45 @@ import { drawing } from "../components/drawing/draw";
 import { finishDrawing } from "../components/drawing/finishDraw";
 import "../styles/drawField.css";
 import { ToolBar } from "../components/views/ToolBar";
-import {rubbering} from "../components/drawing/rubbering"
+import { rubbering } from "../components/drawing/rubbering";
 import { Chat } from "../components/views/chat";
-import fire from "../fire";
+import { fetchData } from "../components/firebase/fetchPasswords";
+import { Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 export function DrawField() {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rubberStatus, setRubberStatus] = useState(false);
+  const [password, setPassword] = useState(null);
   useEffect(() => {
-    console.log(fire)
-    const canvas = canvasRef.current;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const context = canvas.getContext("2d");
-    context.scale(1, 1);
-    context.lineCap = "round";
-    context.strokeStyle = "black";
-    context.lineWidth = 3;
-    contextRef.current = context;
-    
+    fetchData.then((item) => {
+      setPassword(item);
+    });
+    getContext();
   }, []);
 
+  const getContext = () => {
+    const canvas = canvasRef.current;
+    canvas.width = window.innerWidth * 2;
+    canvas.height = window.innerHeight * 2;
+    const context = canvas.getContext("2d");
+    context.scale(2, 2);
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 5;
+    contextRef.current = context;
+  };
   const startDraw = (event) => {
     startDrawing(event, contextRef, setIsDrawing, isDrawing);
   };
   const draw = (event) => {
-    if(!rubberStatus){
+    if (!rubberStatus) {
       drawing(event, contextRef, isDrawing);
+    } else {
+      rubbering(event, contextRef, isDrawing);
     }
-    else{
-      rubbering(event, contextRef, isDrawing)
-    }
-
   };
   const finishDraw = (event) => {
     finishDrawing(event, contextRef, setIsDrawing);
@@ -54,13 +60,18 @@ export function DrawField() {
         ></canvas>
       </section>
       <ToolBar
-          contextRef={contextRef}
-          setIsDrawing={setIsDrawing}
-          setRubberStatus={setRubberStatus}
-          rubberStatus={rubberStatus}
-          isDrawing={isDrawing}
-        />
-      <Chat/>
+        contextRef={contextRef}
+        setIsDrawing={setIsDrawing}
+        setRubberStatus={setRubberStatus}
+        rubberStatus={rubberStatus}
+        isDrawing={isDrawing}
+      />
+      <Chat />
+      <div style={{display:"flex", justifyContent:"center"}}>
+        <Card.Title style={{ position: "absolute", top: "20px" }}>
+          {password}
+        </Card.Title>
+      </div>
     </>
   );
 }

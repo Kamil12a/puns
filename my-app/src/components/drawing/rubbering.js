@@ -4,7 +4,7 @@ export function rubbering(event, context, isDrawing) {
     }
     const x = event.nativeEvent.clientX;
     const y = event.nativeEvent.clientY;
-    context.current.clearRect(x-15, y-15, 30, 30)
+    context.current.clearRect(x, y, 30, 30)
   
   }
   

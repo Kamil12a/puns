@@ -18,7 +18,7 @@ export function LogIn() {
       .catch((error) => {
         setAlert(true);
         let errorMessage = error.message;
-        alertRef.current.innerText = errorMessage
+        alertRef.current.innerText = errorMessage;
       });
   };
   return (
@@ -47,9 +47,11 @@ export function LogIn() {
               />
             </Form.Group>
             {showAlert && (
-              <div ref={alertRef} className="alert alert-danger" role="alert">
-                This is a danger alert—check it out!
-              </div>
+              <div
+                ref={alertRef}
+                className="alert alert-danger"
+                role="alert"
+              ></div>
             )}
             <Button variant="secondary">Switch to sign in</Button>
             <Button variant="primary" type="submit">

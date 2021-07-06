@@ -1,0 +1,27 @@
+.logInSection {
+  display: flex;
+  justify-content: center;
+  height: 70vh;
+  align-items: center;
+}
+.logInContainer{
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    height: 350px;
+    background-color:rgb(230, 230, 230) ;
+    border-radius: 20px;
+}
+form{
+    text-align: center;
+}
+.btn-secondary{
+    margin-right: 20px;
+}
+.btn{
+    margin-top: 20px;
+}
+.alert{
+    width: 320px;
+    text-align: center;
+}

@@ -1,12 +1,11 @@
-import {DrawField} from "./views/drawField"
+// import { DrawField } from "./views/drawField";
 import { LogIn } from "./views/logIn";
+
 function App() {
   return (
     <>
-    <LogIn/>    
-
+      <LogIn />
     </>
-    // <DrawField/>
   );
 }
 

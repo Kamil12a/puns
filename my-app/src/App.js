@@ -1,10 +1,10 @@
 // import { DrawField } from "./views/drawField";
-import { LogIn } from "./views/logIn";
+import { AllViews } from "./views/allviews";
 
 function App() {
   return (
     <>
-      <LogIn />
+      <AllViews/>
     </>
   );
 }

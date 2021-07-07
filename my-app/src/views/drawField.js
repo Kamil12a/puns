@@ -6,20 +6,15 @@ import "../styles/drawField.css";
 import { ToolBar } from "../components/views/ToolBar";
 import { rubbering } from "../components/drawing/rubbering";
 import { Chat } from "../components/views/chat";
-import { fetchData } from "../components/firebase/fetchPasswords";
-import { Card } from "react-bootstrap";
+import { Password } from "../components/views/password";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 export function DrawField() {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rubberStatus, setRubberStatus] = useState(false);
-  const [password, setPassword] = useState(null);
+
   useEffect(() => {
-    fetchData.then((item) => {
-      setPassword(item);
-    });
     getContext();
   }, []);
 
@@ -67,11 +62,7 @@ export function DrawField() {
         isDrawing={isDrawing}
       />
       <Chat />
-      <div style={{display:"flex", justifyContent:"center"}}>
-        <Card.Title style={{ position: "absolute", top: "20px" }}>
-          {password}
-        </Card.Title>
-      </div>
+      <Password/>
     </>
   );
 }

@@ -2,10 +2,10 @@
 import fire from "../fire";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/logIn.css";
-import { useRef, useState } from "react";
-import { DrawField } from "./drawField";
-export function LogIn() {
+import "../styles/logIn.css"
+import { useEffect, useRef, useState } from "react";
+
+export function LogIn({state,setState}) {
   const emailRef = useRef(null);
   const buttonSignref = useRef(null);
   const buttonSubmit = useRef(null);
@@ -13,19 +13,25 @@ export function LogIn() {
   const [password, setPassword] = useState("");
   const [showAlert, setAlert] = useState(false);
   const [signStatus, setSignStatus] = useState("signUp");
-  const [state, setState] = useState("innitial");
+  useEffect(() => {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        setState("loading");
+      }
+    });
+  }, []);
   const createAcc = (email) => {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        setState("loaded");
+        setState("loading");
       })
       .catch((error) => {
         setAlert(true);
         let errorMessage = error.message;
         alertRef.current.innerText = errorMessage;
-        signIn(email)
+        signIn(email);
       });
   };
   const signIn = (email) => {
@@ -33,18 +39,17 @@ export function LogIn() {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        var user = userCredential.user;
-        setState("loaded")
+        setState("loading");
       })
       .catch((error) => {
         var errorMessage = error.message;
-        setAlert(true)
+        setAlert(true);
         alertRef.current.innerText = errorMessage;
       });
   };
   const handleSign = (e) => {
     e.preventDefault();
-    const email= emailRef.current.value
+    const email = emailRef.current.value;
     if (signStatus === "signUp") {
       createAcc(email);
     } else {
@@ -110,7 +115,7 @@ export function LogIn() {
           </div>
         </section>
       )}
-      {state === "loaded" && <DrawField />}
+     
     </>
   );
 }

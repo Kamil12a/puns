@@ -2,6 +2,7 @@
 import { AllViews } from "./views/allviews";
 
 function App() {
+ 
   return (
     <>
       <AllViews/>

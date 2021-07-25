@@ -1,28 +1,25 @@
 import { useState } from "react";
 import { LogIn } from "./logIn";
-import { Form, Button } from "react-bootstrap";
-import { DrawField } from "./drawField";
-import { Logout } from "../components/firebase/logout";
+
+
+import { StartGameButton } from "../components/buttons/startGameButton";
+import { GameIsStarted } from "../components/views/gameIsStarted";
 export function AllViews() {
   const [state, setState] = useState("innitial");
-  const startGame=()=>{
-      setState("loaded")
-  }
+ 
+  
   return (
     <>
       {state === "innitial" && <LogIn state={state} setState={setState} />}
       {state === "loading" && (
         <>
-          <Button onClick={startGame} style={{position:"absolute",top:"40%",right:"50%"}} variant="secondary">
-            {" "}
-            START GAME
-          </Button>
+          <StartGameButton setState={setState} />
         </>
       )}
       {state === "loaded" && (
         <>
-          <Logout state={state} setState={setState}/>
-          <DrawField />
+        <GameIsStarted state={state} setState={setState}/>
+          
         </>
       )}
     </>

@@ -7,15 +7,23 @@ import { ToolBar } from "../components/views/ToolBar";
 import { rubbering } from "../components/drawing/rubbering";
 import { Chat } from "../components/views/chat";
 import { Password } from "../components/views/password";
+import { getDrawer } from "../components/firebase/getDrawer";
 import "bootstrap/dist/css/bootstrap.min.css";
 export function DrawField() {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rubberStatus, setRubberStatus] = useState(false);
-
+  const [drawer, setDrawer] = useState();
   useEffect(() => {
     getContext();
+    getDrawer.then((data) => {
+      setDrawer(data);
+    });
+
+    // const drawerUser=getDrawer()
+    // console.log(drawerUser)
+    // setDrawer(drawerUser);
   }, []);
 
   const getContext = () => {
@@ -30,9 +38,15 @@ export function DrawField() {
     contextRef.current = context;
   };
   const startDraw = (event) => {
+    if (!drawer) {
+      return;
+    }
     startDrawing(event, contextRef, setIsDrawing, isDrawing);
   };
   const draw = (event) => {
+    if (!drawer) {
+      return;
+    }
     if (!rubberStatus) {
       drawing(event, contextRef, isDrawing);
     } else {
@@ -62,7 +76,7 @@ export function DrawField() {
         isDrawing={isDrawing}
       />
       <Chat />
-      <Password/>
+      <Password />
     </>
   );
 }

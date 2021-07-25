@@ -1,6 +1,5 @@
 import fire from "../../fire";
 import { Button } from "react-bootstrap";
-import { useState } from "react";
 export function Logout({state,setState}) {
   const logoutUser = () => {
     fire

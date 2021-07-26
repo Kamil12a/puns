@@ -27,7 +27,7 @@ export function GameIsStarted({ state, setState }) {
       .then((snap) => {
         if (!snap.data().gameStatus) {
           db.collection("GameStatus").doc("gamestatus").set({
-            gameStatus:true
+            gameStatus: true,
           });
           db.collection("UsersActive")
             .doc("Users")

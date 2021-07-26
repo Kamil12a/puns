@@ -76,7 +76,10 @@ export function DrawField() {
         isDrawing={isDrawing}
       />
       <Chat />
-      <Password />
+      {drawer&&(
+            <Password />
+      )}
+  
     </>
   );
 }

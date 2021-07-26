@@ -20,5 +20,6 @@
 }
 .textMessage{
     max-height: 400px;
+    text-align: start;
     overflow: auto;
 }

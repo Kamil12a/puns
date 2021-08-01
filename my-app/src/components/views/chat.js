@@ -5,7 +5,7 @@ import fire from "../../fire";
 import { db } from "../../fire";
 import { useRef, useState, useEffect } from "react";
 import { getDrawer } from "../firebase/getDrawer";
-import {restartGame} from "../firebase/restartGame"
+import { restartGame } from "../firebase/restartGame";
 export function Chat() {
   const messageRef = useRef(null);
   const [drawer, setDrawer] = useState();
@@ -13,10 +13,9 @@ export function Chat() {
   const [password, setPassword] = useState(null);
   const sendMessage = (event) => {
     event.preventDefault();
-    if(messageRef.current.value===password){
-      restartGame()
-    }
-    else if (messageRef.current.value != "" && drawer) {
+    if (messageRef.current.value === password && !drawer) {
+      restartGame();
+    } else if (messageRef.current.value != "" && !drawer) {
       db.collection("Comments").doc().set({
         message: messageRef.current.value,
         date: Date.now(),
@@ -25,18 +24,19 @@ export function Chat() {
       messageRef.current.value = "";
     }
   };
-  const  getPassword=()=>{
-  db.collection("Passwords")
-    .doc("Password")
-    .onSnapshot((snap) => {
-        setPassword(snap.data().password)
-        })}
- 
+  const getPassword = () => {
+    db.collection("Passwords")
+      .doc("Password")
+      .onSnapshot((snap) => {
+        setPassword(snap.data().password);
+      });
+  };
+
   useEffect(() => {
     getDrawer.then((data) => {
       setDrawer(data);
     });
-    getPassword()
+    getPassword();
     db.collection("Comments").onSnapshot((querySnapshot) => {
       let allPasswordsObject = {};
       let allPasswordsArray = [];

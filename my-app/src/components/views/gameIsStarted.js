@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { DrawField } from "../../views/drawField";
 import { Logout } from "../firebase/logout";
-import { db } from "../../fire";
+import fire, { db } from "../../fire";
 import { useEffect } from "react";
 export function GameIsStarted({ state, setState }) {
+  const [drawer, setDrawer] = useState();
   const [waitingForGame, setWaitingStatus] = useState(false);
   const [time, setTime] = useState(10);
   const timer = () => {
@@ -11,7 +12,6 @@ export function GameIsStarted({ state, setState }) {
     const timerRunner = setInterval(() => {
       timeCalc = timeCalc - 1;
       setTime(timeCalc);
-
       if (timeCalc === 0) {
         clearInterval(timerRunner);
         setWaitingStatus(true);
@@ -35,9 +35,19 @@ export function GameIsStarted({ state, setState }) {
             .then((snap) => {
               let user = snap.data().users;
               user = user[Math.floor(Math.random() * user.length)];
-              db.collection("UsersActive").doc("UserDrawing").set({
-                user: user,
-              });
+              db.collection("UsersActive")
+                .doc("UserDrawing")
+                .set({
+                  user: user,
+                })
+                .then(() => {
+                  console.log(user);
+                  if (user === fire.auth().currentUser.uid) {
+                    setDrawer(true);
+                  } else {
+                    setDrawer(false);
+                  }
+                });
             });
         }
       });
@@ -61,7 +71,7 @@ export function GameIsStarted({ state, setState }) {
       {waitingForGame && (
         <>
           <Logout state={state} setState={setState} />
-          <DrawField />
+          <DrawField drawer={drawer} setDrawer={setDrawer} />
         </>
       )}
     </>

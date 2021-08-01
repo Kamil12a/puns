@@ -15,20 +15,18 @@ export function Password() {
             .get()
             .then((passwords) => {
               let passArray = passwords.data().password;
-              let passFinally= passArray[Math.floor(Math.random() * passArray.length)]
-              setPassword(
-                passFinally
-              );
-              
+              let passFinally =
+                passArray[Math.floor(Math.random() * passArray.length)];
+              setPassword(passFinally);
+
               db.collection("Passwords").doc("Password").set({
-                            password: passFinally,
-                          });
+                password: passFinally,
+              });
             });
         } else {
           setPassword(pass.data().password);
         }
       });
-   
   };
   useEffect(() => {
     getPassword();

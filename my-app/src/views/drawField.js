@@ -9,21 +9,22 @@ import { Chat } from "../components/views/chat";
 import { Password } from "../components/views/password";
 import { getDrawer } from "../components/firebase/getDrawer";
 import "bootstrap/dist/css/bootstrap.min.css";
-export function DrawField() {
+import { Timer } from "../components/views/timer";
+import { time } from "../components/firebase/time";
+export function DrawField({ drawer, setDrawer }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rubberStatus, setRubberStatus] = useState(false);
-  const [drawer, setDrawer] = useState();
+
   useEffect(() => {
     getContext();
-    getDrawer.then((data) => {
-      setDrawer(data);
-    });
 
-    // const drawerUser=getDrawer()
-    // console.log(drawerUser)
-    // setDrawer(drawerUser);
+    getDrawer.then((data) => {
+      if (data === true) {
+        setDrawer(data);
+      }
+    });
   }, []);
 
   const getContext = () => {
@@ -76,10 +77,13 @@ export function DrawField() {
         isDrawing={isDrawing}
       />
       <Chat />
-      {drawer&&(
-            <Password />
+      {drawer && (
+        <>
+          <Password />
+          {time()}
+        </>
       )}
-  
+      <Timer />
     </>
   );
 }

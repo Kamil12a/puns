@@ -5,10 +5,11 @@ export const  getDrawer=
     .doc("UserDrawing")
     .get()
     .then((snap) => {
-      if (snap.data().user === fire.auth().currentUser.uid) {
-        return true
-      } else {
-        return false;
+
+      if(snap.data()){
+        if (snap.data().user === fire.auth().currentUser.uid) {
+          return true
+        } 
       }
     });
 

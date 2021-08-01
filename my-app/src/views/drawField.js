@@ -11,6 +11,7 @@ import { getDrawer } from "../components/firebase/getDrawer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Timer } from "../components/views/timer";
 import { time } from "../components/firebase/time";
+import { db } from "../fire";
 export function DrawField({ drawer, setDrawer }) {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
@@ -19,14 +20,21 @@ export function DrawField({ drawer, setDrawer }) {
 
   useEffect(() => {
     getContext();
-
     getDrawer.then((data) => {
       if (data === true) {
         setDrawer(data);
       }
     });
+    getDrawing()
   }, []);
-
+  const getDrawing=()=>{
+    db.collection("Drawing").onSnapshot((snap)=>{
+      snap.forEach((cord)=>{
+        contextRef.current.lineTo(cord.data().x, cord.data().y);
+        contextRef.current.stroke();
+      })
+    })
+  }
   const getContext = () => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 2;
@@ -41,17 +49,19 @@ export function DrawField({ drawer, setDrawer }) {
   const startDraw = (event) => {
     if (!drawer) {
       return;
+    } else {
+      startDrawing(event, contextRef, setIsDrawing, isDrawing);
     }
-    startDrawing(event, contextRef, setIsDrawing, isDrawing);
   };
   const draw = (event) => {
     if (!drawer) {
       return;
-    }
-    if (!rubberStatus) {
-      drawing(event, contextRef, isDrawing);
     } else {
-      rubbering(event, contextRef, isDrawing);
+      if (!rubberStatus) {
+        drawing(event, contextRef, isDrawing);
+      } else {
+        rubbering(event, contextRef, isDrawing);
+      }
     }
   };
   const finishDraw = (event) => {

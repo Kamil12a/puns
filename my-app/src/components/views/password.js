@@ -1,7 +1,6 @@
 import { Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useRef, useState } from "react";
-import fire from "../../fire";
 import { db } from "../../fire";
 export function Password() {
   const [password, setPassword] = useState(null);

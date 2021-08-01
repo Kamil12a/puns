@@ -16,4 +16,7 @@ export function restartGame() {
     db.collection("UsersActive").doc("Users").set({
       users:[]
     })
+    db.collection("Passwords").doc("Password").set({
+      
+    })
 }

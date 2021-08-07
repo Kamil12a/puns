@@ -1,11 +1,11 @@
-// import { DrawField } from "./views/drawField";
-import { AllViews } from "./views/allviews";
+import { DrawField } from "./views/drawField";
 
 function App() {
  
   return (
     <>
-      <AllViews/>
+      
+      <DrawField/>
     </>
   );
 }

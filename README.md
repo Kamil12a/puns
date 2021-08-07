@@ -1,1 +1,2 @@
-# puns
+# npm i
+# npm start
